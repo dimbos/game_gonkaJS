@@ -56,6 +56,17 @@ function downBox(){
 	
 }
 
+function moveCar (e) {
+	var rect = canvas.getBoundingClientRect(); //вычисляем у канваса прямоуголтник кторый его ограничивает
+	var x = e.clientX - rect.left - carw / 2;
+	if(x < 0)
+		carx = 0;
+	else if(x > canvas.width - carw)
+		carx = canvas.width - carw;
+	else
+		carx = x;
+}
+
 function timer () {
 	addBox();
 	downBox(); 
@@ -64,6 +75,10 @@ function timer () {
 	showCar();
 }
 
+
+
 init();
 
-setInterval(timer, 20)
+var timerid = setInterval(timer, 20);
+
+document.addEventListener('mousemove', moveCar, false);
