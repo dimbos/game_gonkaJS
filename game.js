@@ -73,9 +73,39 @@ function timer () {
 	cls(); 
 	showBox(); 
 	showCar();
+	checkCrush();
 }
 
+function isInside(x, y){
+	return (x >= carx && x <= carx + carw &&
+					y >= cary && y <= cary + carh);
+}
 
+function isCrash(bx, by){
+	if(by + boxh < cary)
+			return false;
+		if(isInside(bx, by) ||
+		isInside(bx + boxw, by) ||
+		isInside(bx, by + boxh)||
+		isInside(bx + boxw, by + boxh))
+			return true;
+		else
+			return false;
+}
+
+function checkCrush(){
+	for(j = 0; j < box.length; j++)
+		if(isCrash(box[j][0], box[j][1]))
+		{
+			gameOver();
+			break;
+		}
+}
+
+function gameOver(){
+	alert("Game over, your result: " + level );
+	clearInterval(timerid);
+}
 
 init();
 
