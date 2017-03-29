@@ -12,6 +12,8 @@ var boxh = 10;
 var boxc = "orange";
 var box = Array();//массив для хранения препятствий
 
+var level = 0;
+
 function init(){
 	 canvas = document.getElementById("canvas");
 	 context = canvas.getContext("2d");
@@ -25,9 +27,11 @@ function showCar(){
 }
 
 function addBox(){
-	
+	level ++;
+	if(Math.random() * 20000 > level)
+		return;
 	var x = Math.random() * (canvas.width - boxw);
-	var y = Math.random() * (canvas.height - boxh); 
+	var y = -boxh;//Math.random() * (canvas.height - boxh); 
 	box.push([x, y]);
 }
 
@@ -44,14 +48,22 @@ function cls () {
 }
 
 function downBox(){
-	for(j = 0; j < box.length; j++){
-		box [j] [1] +=3;
-	}
+	for(j = 0; j < box.length; j++)
+		if(box[j][1] < canvas.height)
+			box [j] [1] ++;
+		else
+			box.splice(j, 1);
+	
+}
+
+function timer () {
+	addBox();
+	downBox(); 
+	cls(); 
+	showBox(); 
+	showCar();
 }
 
 init();
-showCar();
-for(j = 0; j < 40; j++){
-	addBox();	
-}
-showBox();
+
+setInterval(timer, 20)
